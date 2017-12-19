@@ -70,15 +70,20 @@ const USERS = [
 //  4. if matching user found, add the user object to the request object
 //     (aka, `req.user = matchedUser`)
 function gateKeeper(req, res, next) {
-  req.get('x-username-and-password');
-  let parsedInfo = queryString.parse('x-username=user&password=pass');
-  let selectedUser = USERS.find(doesUserExist(parsedInfo));
-  console.log(parsedInfo);
+  const header = req.get('x-username-and-password');
+  let parsedInfo = queryString.parse(header);
+  console.log(parsedInfo.userName);
+  console.log(USERS.userName);
+  console.log(doesUserExist(parsedInfo));
+
+
+  let selectedUser = USERS.find(doesUserExist);
+  console.log(selectedUser);
   next();
 }
 
 function doesUserExist(userInfo) {
-  return USERS.userName === userInfo;
+  return userInfo.userName === USERS.userName;
 }
 
 
